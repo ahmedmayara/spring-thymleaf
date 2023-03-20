@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<link rel="stylesheet" type="text/css" href="webjars/bootstrap/4.3.1/css/bootstrap.min.css">
+<head>
+    <meta charset="UTF-8">
+    <title>Products List</title>
+</head>
+<body>
+<div th:replace="template"></div>
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-header">
+                <h3>Products List</h3>
+            </div>
+            <div class="card-body">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Product ID</th>
+                        <th>Product Name</th>
+                        <th>Product Price</th>
+                        <th>Creation Date</th>
+                        <th colspan="2">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="product : ${products.content}">
+                            <td th:text="${product.productId}"></td>
+                            <td th:text="${product.productName}"></td>
+                            <td th:text="${product.productPrice}"></td>
+                            <td th:text="${product.createdAt}"></td>
+                            <td>
+                                <a th:href="@{deleteProduct(productId=${product.productId}, page=${currentPage}, size=${size})}" class="btn btn-danger" onclick="confirm('Are you sure?')">Delete</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <ul class="nav nav-pills">
+                    <li th:each="page,status: ${pages}" class="nav-item">
+                        <a th:class="${status.index == currentPage ? 'btn btn-primary' : 'btn btn-outline-primary'}"
+                           th:href="@{listProducts(page=${status.index}, size=${size})}"
+                            th:text="${status.index}"></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
